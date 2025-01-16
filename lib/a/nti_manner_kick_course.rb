@@ -33,7 +33,7 @@ module A
               A::NtiMannerKickCourse.already_checked
               message = if A::NtiMannerKickCourse.debug?
                 <<~"MESSAGE"
-                  During Rails startup, the block inside ActiveSupport.on_load(#{framework}) was executed.
+                  During Rails startup, the block inside ActiveSupport.on_load(:#{framework}) was executed.
                   There is code that is not being deferred as expected.
 
                   Currently, debug mode is enabled, so the full stack trace is being displayed.
@@ -44,7 +44,7 @@ module A
               else
                 suspect = caller.find { |c| !A::NtiMannerKickCourse.filtering.match?(c) }
                 <<~"MESSAGE"
-                  During Rails startup, the block inside ActiveSupport.on_load(#{framework}) was executed.
+                  During Rails startup, the block inside ActiveSupport.on_load(:#{framework}) was executed.
                   There is code that is not being deferred as expected. The suspicious part is here.
 
                   #{suspect}
