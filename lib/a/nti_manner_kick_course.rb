@@ -69,7 +69,7 @@ module A
 
       # TODO: We need to make this list more comprehensive.
       def filtering
-        %r{<internal:|/bundled_gems.rb|/(activesupport|actionpack|activerecord|bootsnap|bundler|zeitwerk)-[0-9a-z\.]+/}
+        %r{<internal:|/bundled_gems.rb|/(a-nti_manner_kick_course|activesupport|actionpack|activerecord|bootsnap|bundler|zeitwerk)-[0-9a-z\.]+/}
       end
 
       def already_checked?
