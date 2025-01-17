@@ -116,6 +116,8 @@ For more details about ActiveSupport.on_load, check [the official Rails document
 
 If the ANTI_MANNER environment variable is not set, this gem does nothing.
 
+> [!CAUTION]
+> If you are using Spring, this gem will not work correctly. In that case, add DISABLE_SPRING=1 to your command before running it.
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
