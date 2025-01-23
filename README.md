@@ -112,7 +112,7 @@ If any code fails to lazy loading, the process will exit with status code 1. Thi
 
 You can fix the issue by wrapping the relevant code in an `ActiveSupport.on_load` block.  
 
-For more details about ActiveSupport.on_load, check [the official Rails documentation]((https://api.rubyonrails.org/classes/ActiveSupport/LazyLoadHooks.html).
+For more details about ActiveSupport.on_load, check [the official Rails documentation](https://api.rubyonrails.org/classes/ActiveSupport/LazyLoadHooks.html).
 
 If the ANTI_MANNER environment variable is not set, this gem does nothing.
 
