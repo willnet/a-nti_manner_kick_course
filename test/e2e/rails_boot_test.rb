@@ -1,6 +1,6 @@
 require "test_helper"
 
-class A::NtiMannerKickCourseTest < ActiveSupport::TestCase
+class RailsBootTest < ActiveSupport::TestCase
   def setup
     ENV["ANTI_MANNER"] = nil
     ENV["INJECT_ANTI_MANNER"] = nil
