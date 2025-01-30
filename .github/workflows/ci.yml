@@ -35,9 +35,13 @@ jobs:
         with:
           ruby-version: 3.3.6
           bundler-cache: true
-
-      - name: Run tests
+      - name: Run Unit tests
         env:
           RAILS_ENV: test
-        run: bin/test
+        run: bin/unit-test
+
+      - name: Run E2E tests
+        env:
+          RAILS_ENV: test
+        run: bin/e2e-test
 
