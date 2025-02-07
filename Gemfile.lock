@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    a-nti_manner_kick_course (0.1.2)
+    a-nti_manner_kick_course (0.1.3)
       rails (>= 7.0.0)
 
 GEM
