@@ -32,25 +32,9 @@ module A
             if A::NtiMannerKickCourse.monitoring? && !A::NtiMannerKickCourse.already_checked?
               A::NtiMannerKickCourse.already_checked
               message = if A::NtiMannerKickCourse.debug?
-                <<~"MESSAGE"
-                  During Rails startup, the block inside ActiveSupport.on_load(:#{framework}) was executed.
-                  There is code that is not being deferred as expected.
-
-                  Currently, debug mode is enabled, so the full stack trace is being displayed.
-                  To show only the suspicious code line, remove the ANTI_MANNER_DEBUG environment variable and rerun.
-
-                  #{caller}
-                MESSAGE
+                A::NtiMannerKickCourse.error_message_with_debug(framework)
               else
-                suspect = caller.find { |c| !A::NtiMannerKickCourse.filtering.match?(c) }
-                <<~"MESSAGE"
-                  During Rails startup, the block inside ActiveSupport.on_load(:#{framework}) was executed.
-                  There is code that is not being deferred as expected. The suspicious part is here.
-
-                  #{suspect}
-
-                  If you want to check the entire stack trace, set the ANTI_MANNER_DEBUG environment variable.
-                MESSAGE
+                A::NtiMannerKickCourse.error_message(framework)
               end
 
               abort(message)
@@ -78,6 +62,30 @@ module A
 
       def already_checked
         @already_checked = true
+      end
+
+      def error_message(framework)
+        suspect = caller.find { |c| !A::NtiMannerKickCourse.filtering.match?(c) }
+        <<~"MESSAGE"
+          ❌During Rails startup, the block inside ActiveSupport.on_load(:#{framework}) was executed.
+          There is code that is not being deferred as expected. The suspicious part is here.
+
+          #{suspect}
+
+          If you want to check the entire stack trace, set the ANTI_MANNER_DEBUG environment variable.
+        MESSAGE
+      end
+
+      def error_message_with_debug(framework)
+        <<~"MESSAGE"
+          ❌During Rails startup, the block inside ActiveSupport.on_load(:#{framework}) was executed.
+          There is code that is not being deferred as expected.
+
+          Currently, debug mode is enabled, so the full stack trace is being displayed.
+          To show only the suspicious code line, remove the ANTI_MANNER_DEBUG environment variable and rerun.
+
+          #{caller}
+        MESSAGE
       end
 
       private

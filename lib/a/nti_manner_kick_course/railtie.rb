@@ -7,7 +7,7 @@ module A
         if A::NtiMannerKickCourse.enabled?
           A::NtiMannerKickCourse.finish_monitoring
 
-          puts "Congratulations! No code was found that fails to defer execution!"
+          puts "✅Congratulations! No code was found that fails to defer execution!"
           exit
         end
       end
