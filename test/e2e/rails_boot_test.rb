@@ -27,4 +27,13 @@ class RailsBootTest < ActiveSupport::TestCase
     status = Process::Status.wait(pid)
     assert_equal 0, status.exitstatus
   end
+
+  test "Rails exits with status code 1 when improper code is detected, anti manner is enabled, and debug is on" do
+    ENV["ANTI_MANNER"] = "1"
+    ENV["INJECT_ANTI_MANNER"] = "1"
+    ENV["ANTI_MANNER_DEBUG"] = "1"
+    pid = fork { require "dummy/config/environment" }
+    status = Process::Status.wait(pid)
+    assert_equal 1, status.exitstatus
+  end
 end
