@@ -4,6 +4,7 @@ class RailsBootTest < ActiveSupport::TestCase
   def setup
     ENV["ANTI_MANNER"] = nil
     ENV["INJECT_ANTI_MANNER"] = nil
+    ENV["ANTI_MANNER_DEBUG"] = nil
   end
 
   test "Rails exits with status code 1 when improper code is detected and anti manner is enabled" do
