@@ -1,9 +1,14 @@
 # A::NtiMannerKickCourse
 
+## Introduction
 Rails speeds up the startup process by lazily loading classes for components like ActiveRecord::Base and ActionController::Base. Additionally, the behavior of lazy loading is essential for applying configuration settings to these components. Without lazy loading, some configurations might not be applied as expected.
+
+### Why Lazy Loading Matters
+Without lazy loading, certain settings might not be applied in time.
 
 For example, consider the following scenario:
 
+### Example: Upgrading from Rails 7.0 to 7.1
 When upgrading from Rails 7.0 to Rails 7.1, running rails app:upgrade generates a file named `config/initializers/new_framework_defaults_7_1.rb`. This file helps incrementally enable new default settings for Rails 7.1. Initially, all settings in this file are commented out. Uncommenting the following setting will enable it:
 
 ```ruby
@@ -12,8 +17,9 @@ When upgrading from Rails 7.0 to Rails 7.1, running rails app:upgrade generates 
 # as equal to an equivalent `Hash` by default.
 #++
 Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
-````
+```
 
+### Configuration Details and Pitfalls
 As the comment suggests, this setting ensures that ActionController::Parameters instances are no longer treated as equivalent to Hash. However, if ActionController::Base is eager-loaded, this configuration will not behave as expected. Why does this happen?
 
 Configuration settings like `Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality` are not automatically effective. These settings are applied to components like ActionController only during the Rails initialization process.
@@ -32,7 +38,7 @@ This assignment is wrapped in an `ActiveSupport.on_load(:action_controller, run_
 ActiveSupport.on_load(:action_controller, run_once: true) do
   # Configuration assignment logic
 end
-````
+```
 
 Now, consider a gem "add_some_function_to_controller" with the following code:
 
@@ -52,8 +58,7 @@ Since all gems listed in the Gemfile are required in config/application.rb, the 
 
 As a result, the configuration logic for ActionController is executed before the initializer file `config/initializers/new_framework_defaults_7_1.rb`. This means that the setting `Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false` is not applied in time.
 
-Fixing the Issue
-
+### Fixing the Issue
 To solve this, modify the gem code as follows:
 
 ```ruby
@@ -76,6 +81,7 @@ This resolves the issue, as the setting in config/initializers/new_framework_def
 
 While this specific case is likely a common issue, other problems may also arise from changes to the initialization order. To ensure reliable behavior, it is critical to keep all component loading deferred during Rails initialization. However, manually checking for potential issues with lazy loading is impractical.
 
+### Using a-nti_manner_kick_course
 Using a-nti_manner_kick_course can help detect libraries or application code (like add_some_function_to_controller) that interfere with lazy loading, allowing you to maintain proper initialization behavior.
 
 ## Installation
@@ -110,7 +116,7 @@ $ ANTI_MANNER=1 rails runner 1
 
 If any code fails to lazy loading, the process will exit with status code 1. This command suggests which lines are eager loading Rails code. It is a good idea to regularly check in CI if lazy loading is working correctly.
 
-You can fix the issue by wrapping the relevant code in an `ActiveSupport.on_load` block.  
+You can fix the issue by wrapping the relevant code in an `ActiveSupport.on_load` block.
 
 For more details about ActiveSupport.on_load, check [the official Rails documentation](https://api.rubyonrails.org/classes/ActiveSupport/LazyLoadHooks.html).
 
