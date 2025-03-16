@@ -100,7 +100,7 @@ And then execute:
 $ bundle
 ```
 
-## Usage
+## Usage for rails application developers
 
 Start your Rails application with the ANTI_MANNER environment variable as follows.
 
@@ -124,6 +124,18 @@ If the ANTI_MANNER environment variable is not set, this gem does nothing.
 
 > [!CAUTION]
 > If you are using Spring, this gem will not work correctly. In that case, add DISABLE_SPRING=1 to your command before running it.
+
+## Usage for gem developers
+
+`A::NtiMannerKickcourse.monitor { require 'your_gem' }` allows you to run the specified code in a new process and exit with status code 1 if lazy loading is not properly deferred.
+
+Execute `require 'your_gem'` within the `A::NtiMannerKickcourse.monitor` block as follows:
+
+```ruby
+A::NtiMannerKickcourse.monitor { require 'your_gem' }
+```
+
+When this code runs, if `your_gem` interferes with lazy loading, an error message will be displayed and the process will exit with status code 1. This helps you quickly identify and fix lazy loading issues.
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
