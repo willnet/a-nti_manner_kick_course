@@ -22,25 +22,25 @@ module A
         ENV["ANTI_MANNER_DEBUG"]
       end
 
-      def monitor
-        require "active_support/lazy_load_hooks"
-
+      def monitor_rails_startup
         start_monitoring
+        add_hooks
+      end
 
-        MONITORED_HOOKS.each do |framework|
-          ActiveSupport.on_load(framework) do
-            if A::NtiMannerKickCourse.monitoring? && !A::NtiMannerKickCourse.already_checked?
-              A::NtiMannerKickCourse.already_checked
-              message = if A::NtiMannerKickCourse.debug?
-                A::NtiMannerKickCourse.error_message_with_debug(framework)
-              else
-                A::NtiMannerKickCourse.error_message(framework)
-              end
+      def monitor_gem
+        start_monitoring
+        add_hooks
+        yield
+        wrapup!
+      end
 
-              abort(message)
-            end
-          end
-        end
+      alias monitor monitor_gem
+
+      def wrapup!
+        A::NtiMannerKickCourse.finish_monitoring
+
+        puts "✅Congratulations! No code was found that fails to defer execution!"
+        exit
       end
 
       def monitoring?
@@ -93,8 +93,27 @@ module A
       def start_monitoring
         @monitoring = true
       end
+
+      def add_hooks
+        require "active_support/lazy_load_hooks"
+
+        MONITORED_HOOKS.each do |framework|
+          ActiveSupport.on_load(framework) do
+            if A::NtiMannerKickCourse.monitoring? && !A::NtiMannerKickCourse.already_checked?
+              A::NtiMannerKickCourse.already_checked
+              message = if A::NtiMannerKickCourse.debug?
+                A::NtiMannerKickCourse.error_message_with_debug(framework)
+              else
+                A::NtiMannerKickCourse.error_message(framework)
+              end
+
+              abort(message)
+            end
+          end
+        end
+      end
     end
 
-    monitor if enabled?
+    monitor_rails_startup if enabled?
   end
 end
