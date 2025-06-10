@@ -23,6 +23,24 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: ['3.0', '3.1', '3.2', '3.3', '3.4']
+        rails-version: ['7.0', '7.1', '7.2', '8.0']
+        exclude:
+          - ruby-version: '3.3'
+            rails-version: '7.0'
+          - ruby-version: '3.4'
+            rails-version: '7.0'
+          - ruby-version: '3.4'
+            rails-version: '7.1'
+          - ruby-version: '3.0'
+            rails-version: '7.2'
+          - ruby-version: '3.0'
+            rails-version: '8.0'
+          - ruby-version: '3.1'
+            rails-version: '8.0'
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y curl sqlite3
@@ -33,15 +51,20 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.2
+          ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
+        env:
+          BUNDLE_GEMFILE: gemfiles/Gemfile.rails-${{ matrix.rails-version }}
+
       - name: Run Unit tests
         env:
           RAILS_ENV: test
+          BUNDLE_GEMFILE: gemfiles/Gemfile.rails-${{ matrix.rails-version }}
         run: bin/unit-test
 
       - name: Run E2E tests
         env:
           RAILS_ENV: test
+          BUNDLE_GEMFILE: gemfiles/Gemfile.rails-${{ matrix.rails-version }}
         run: bin/e2e-test
 
