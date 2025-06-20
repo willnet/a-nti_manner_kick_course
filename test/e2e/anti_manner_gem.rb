@@ -1,5 +1,3 @@
-require "active_record"
-
 module AntiMannerGem
-  ActiveRecord::Base
+  ActiveSupport.run_load_hooks(:active_record, "dummy")
 end
