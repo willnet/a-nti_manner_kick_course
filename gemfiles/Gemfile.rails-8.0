@@ -3,10 +3,7 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in a-nti_manner_kick_course.gemspec.
 gemspec path: ".."
 
-gem "rails", "~> 8.0.0"
-
-gem "puma"
-gem "sqlite3"
+gem "railties", "~> 8.0.0"
 
 # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
 gem "rubocop-rails-omakase", require: false
