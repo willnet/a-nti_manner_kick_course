@@ -127,12 +127,12 @@ If the ANTI_MANNER environment variable is not set, this gem does nothing.
 
 ## Usage for gem developers
 
-`A::NtiMannerKickcourse.monitor { require 'your_gem' }` allows you to run the specified code in a new process and exit with status code 1 if lazy loading is not properly deferred.
+`A::NtiMannerKickCourse.monitor { require 'your_gem' }` allows you to run the specified code in a new process and exit with status code 1 if lazy loading is not properly deferred.
 
-Execute `require 'your_gem'` within the `A::NtiMannerKickcourse.monitor` block as follows:
+Execute `require 'your_gem'` within the `A::NtiMannerKickCourse.monitor` block as follows:
 
 ```ruby
-A::NtiMannerKickcourse.monitor { require 'your_gem' }
+A::NtiMannerKickCourse.monitor { require 'your_gem' }
 ```
 
 When this code runs, if `your_gem` interferes with lazy loading, an error message will be displayed and the process will exit with status code 1. This helps you quickly identify and fix lazy loading issues.
