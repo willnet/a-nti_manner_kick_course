@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         ruby-version: ['3.0', '3.1', '3.2', '3.3', '3.4']
-        rails-version: ['7.0', '7.1', '7.2', '8.0']
+        rails-version: ['7.0', '7.1', '7.2', '8.0', '8.1']
         exclude:
           - ruby-version: '3.3'
             rails-version: '7.0'
@@ -41,6 +41,10 @@ jobs:
             rails-version: '8.0'
           - ruby-version: '3.1'
             rails-version: '8.0'
+          - ruby-version: '3.0'
+            rails-version: '8.1'
+          - ruby-version: '3.1'
+            rails-version: '8.1'
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y curl sqlite3
