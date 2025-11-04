@@ -4,7 +4,3 @@ source "https://rubygems.org"
 gemspec path: ".."
 
 gem "railties", "~> 7.0.0"
-gem "concurrent-ruby", "< 1.3.5"
-
-# Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-gem "rubocop-rails-omakase", require: false
