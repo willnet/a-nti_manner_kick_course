@@ -1,5 +1,9 @@
 # A::NtiMannerKickCourse
 
+> [!IMPORTANT]
+> Rails 8.2+ provides this functionality in Rails itself: https://github.com/rails/rails/pull/56201
+> If you use Rails 8.2 or later, you do not need this gem.
+
 ## Introduction
 Rails speeds up the startup process by lazily loading classes for components like ActiveRecord::Base and ActionController::Base. Additionally, the behavior of lazy loading is essential for applying configuration settings to these components. Without lazy loading, some configurations might not be applied as expected.
 
